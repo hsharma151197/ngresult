@@ -25,17 +25,23 @@ export class StudentDashboardComponent implements OnInit{
     students: Student[];
     constructor(private studentService: StudentDashboardService){}
     ngOnInit(){
-        this.students = this.studentService.getStudents();
-    }
-    handleEdit(event: Student){
-        this.students = this.students.map((student: Student) => {
-            if(student.id === event.id){
-                student = Object.assign({}, student, event);
-            }
-            return student;
+        this.studentService.getStudents().subscribe((data: Student[])=>{
+            this.students = data;
         });
     }
+    handleEdit(event: Student){
+        this.studentService.updateStudents(event).subscribe((data: Student)=>{
+            this.students = this.students.map((student: Student) => {
+                if(student.id === event.id){
+                    student = Object.assign({}, student, event);
+                }
+                return student;
+            });
+        })
+    }
     handleRemove(event: Student){
-        this.students = this.students.filter((student: Student) => student.id !== event.id);
+        this.studentService.deleteStudents(event).subscribe((data: Student)=>{
+            this.students = this.students.filter((student: Student) => student.id !== event.id);
+        })
     }
 }

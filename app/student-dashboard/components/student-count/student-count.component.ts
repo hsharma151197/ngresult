@@ -5,7 +5,7 @@ import { Student } from '../../models/student.interface';
     selector: 'student-count',
     template: `
         <div>Student Count</div>
-        {{ items.length }}
+        {{ items?.length }}
     `
 })
 export class StudentCountComponent{
